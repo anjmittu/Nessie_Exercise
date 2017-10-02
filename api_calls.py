@@ -37,5 +37,28 @@ print "Jimmy's account id is: " + jimmy_account_id +'\n'
 #GET to bills
 print "Checking to see if Jimmy has any bills"
 r = requests.get('http://api.reimaginebanking.com/accounts/'+jimmy_account_id+'/bills?key=0f35e6aabd46897e9b0185a67a566d65', headers={'content-type':'application/json'})
+print "Result of the GET: " + str(r.status_code)
+print "Jimmy has " + str(len(r.json())) + " bills" +'\n'
+
+
+
+#POST to and purchases
+guitar_store = {
+                    "name": "Guitar Shop",
+                    "category": [
+                        "Music"
+                    ]
+                }
+r = requests.post('http://api.reimaginebanking.com/merchants?key=0f35e6aabd46897e9b0185a67a566d65', json=guitar_store, headers={'content-type':'application/json'})
+store_body = r.json()
+store_id = store_body[u'objectCreated'][u'_id']
+print "Adding Jimmy's guitar purchase to his account"
+guitar_purchase = {
+                    "merchant_id": store_id,
+                    "medium": "balance",
+                    "purchase_date": "2017-10-01",
+                    "amount": 1234,
+                    "description": "New guitar"
+                }
+r = requests.post('http://api.reimaginebanking.com/accounts/'+jimmy_account_id+'/purchases?key=0f35e6aabd46897e9b0185a67a566d65', json=guitar_purchase, headers={'content-type':'application/json'})
 print "Result of the POST: " + str(r.status_code)
-print "Jimmy has " + str(len(r.json())) + " bills"
