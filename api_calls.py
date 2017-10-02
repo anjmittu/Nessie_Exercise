@@ -16,8 +16,8 @@ jimmy = {
         }
 r = requests.post('http://api.reimaginebanking.com/customers?key=0f35e6aabd46897e9b0185a67a566d65', json=jimmy, headers={'content-type':'application/json'})
 print "Result of the POST: " + str(r.status_code)
-customer_body = r.json()
-jimmy_id = customer_body[u'objectCreated'][u'_id']
+jimmy_body = r.json()
+jimmy_id = jimmy_body[u'objectCreated'][u'_id']
 print "Jimmy's id is: " + jimmy_id +'\n'
 
 #POST to account
@@ -71,4 +71,16 @@ jimmy_deposit = {
                     "amount": 674
                 }
 r = requests.post('http://api.reimaginebanking.com/accounts/'+jimmy_account_id+'/deposits?key=0f35e6aabd46897e9b0185a67a566d65', json=jimmy_deposit, headers={'content-type':'application/json'})
-print "Result of the POST: " + str(r.status_code)
+print "Result of the POST: " + str(r.status_code)+'\n'
+
+#GET to enterprise customers
+print "Getting all accounts in the database"
+r = requests.get('http://api.reimaginebanking.com/enterprise/customers?key=0f35e6aabd46897e9b0185a67a566d65', headers={'content-type':'application/json'})
+print "Result of the GET: " + str(r.status_code)
+customer_body = r.json()
+print "There are: " + str(len(customer_body["results"])) +' accounts\n'
+
+#DELETE all accounts
+print "Deleting all accounts"
+r = requests.delete('http://api.reimaginebanking.com/data?type=Accounts&key=0f35e6aabd46897e9b0185a67a566d65', headers={'content-type':'application/json'})
+print "Result of the DELETE: " + str(r.status_code)
