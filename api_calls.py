@@ -42,7 +42,7 @@ print "Jimmy has " + str(len(r.json())) + " bills" +'\n'
 
 
 
-#POST to and purchases
+#POST to merchants and purchases
 guitar_store = {
                     "name": "Guitar Shop",
                     "category": [
@@ -61,4 +61,14 @@ guitar_purchase = {
                     "description": "New guitar"
                 }
 r = requests.post('http://api.reimaginebanking.com/accounts/'+jimmy_account_id+'/purchases?key=0f35e6aabd46897e9b0185a67a566d65', json=guitar_purchase, headers={'content-type':'application/json'})
+print "Result of the POST: " + str(r.status_code) +'\n'
+
+#POST to deposit
+print "Depositing money into Jimmy's account"
+jimmy_deposit = {
+                    "medium": "balance",
+                    "transaction_date": "2017-09-23",
+                    "amount": 674
+                }
+r = requests.post('http://api.reimaginebanking.com/accounts/'+jimmy_account_id+'/deposits?key=0f35e6aabd46897e9b0185a67a566d65', json=jimmy_deposit, headers={'content-type':'application/json'})
 print "Result of the POST: " + str(r.status_code)
