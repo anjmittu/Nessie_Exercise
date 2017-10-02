@@ -33,3 +33,9 @@ print "Result of the POST: " + str(r.status_code)
 account_body = r.json()
 jimmy_account_id = account_body[u'objectCreated'][u'_id']
 print "Jimmy's account id is: " + jimmy_account_id +'\n'
+
+#GET to bills
+print "Checking to see if Jimmy has any bills"
+r = requests.get('http://api.reimaginebanking.com/accounts/'+jimmy_account_id+'/bills?key=0f35e6aabd46897e9b0185a67a566d65', headers={'content-type':'application/json'})
+print "Result of the POST: " + str(r.status_code)
+print "Jimmy has " + str(len(r.json())) + " bills"
