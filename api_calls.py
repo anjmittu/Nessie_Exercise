@@ -96,6 +96,32 @@ if r.status_code == 201:
 else:
     print "Could not add the deposit" +'\n'
 
+#GET to atms
+print "Finding atms near by"
+r = requests.get('http://api.reimaginebanking.com/atms?lat=38.9283&lng=-77.1753&rad=10&key=0f35e6aabd46897e9b0185a67a566d65', headers={'content-type':'application/json'})
+print "Result of the GET: " + str(r.status_code)
+if r.status_code == 200:
+    atm_body = r.json()
+    print "Found " + str(len(atm_body["data"])) + " ATMs"
+    print "Getting more ATMs ..."
+    r = requests.get('http://api.reimaginebanking.com' + atm_body["paging"]["next"], headers={'content-type':'application/json'})
+    print "Result of the GET: " + str(r.status_code)
+    if r.status_code == 200:
+        atm_body = r.json()
+        print "Found " + str(len(atm_body["data"])) + " more ATMs"
+        print "Getting more ATMs ..."
+        r = requests.get('http://api.reimaginebanking.com' + atm_body["paging"]["next"], headers={'content-type':'application/json'})
+        print "Result of the GET: " + str(r.status_code)
+        if r.status_code == 200:
+            atm_body = r.json()
+            print "Found " + str(len(atm_body["data"])) + " more ATMs" +'\n'
+        else:
+            print "Could not get atms" +'\n'
+    else:
+        print "Could not get atms" +'\n'
+else:
+    print "Could not get atms" +'\n'
+
 #GET to enterprise customers
 print "Getting all accounts in the database"
 r = requests.get('http://api.reimaginebanking.com/enterprise/customers?key=0f35e6aabd46897e9b0185a67a566d65', headers={'content-type':'application/json'})
@@ -111,6 +137,6 @@ print "Deleting all accounts"
 r = requests.delete('http://api.reimaginebanking.com/data?type=Accounts&key=0f35e6aabd46897e9b0185a67a566d65', headers={'content-type':'application/json'})
 print "Result of the DELETE: " + str(r.status_code)
 if r.status_code == 204:
-    print "Deleted"
+    print "Accounts deleted"
 else:
     print "Could not delete" +'\n'
