@@ -87,7 +87,7 @@ else:
 
 
 #Wait for deposit to go through
-time.sleep(100)
+time.sleep(70)
 
 
 
@@ -126,7 +126,7 @@ else:
 
 
 #Wait for withdrawal to go through
-time.sleep(100)
+time.sleep(70)
 
 
 print("Checking the savings account")
@@ -144,11 +144,34 @@ else:
 
 
 
+print("Creating a new account for a transfer")
+#Parameter body
+customer_account_call = {
+    "type": "Savings",
+    "nickname": "For transfers",
+    "rewards": 0,
+    "balance": 0
+}
+#POST request
+r = requests.post('http://'+host+'/customers/'+customer_id+'/accounts?key='+api_key, json=customer_account_call, headers={'content-type':'application/json'})
+#Show the result of the POST
+print("Result of the POST: " + str(r.status_code))
+if r.status_code == 201:
+    #Result is good
+    account_body = r.json()
+    transfer_account_id = account_body[u'objectCreated'][u'_id']
+    print(json.dumps(account_body, indent=4) + '\n')
+else:
+    #Result is not good
+    print("Could not create account"  +'\n')
+
+
+
 print("Transferring money from account")
 #Parameter body
 transfer_call = {
     "medium": "balance",
-    "payee_id": "5a01faefb390353c953a2461",
+    "payee_id": transfer_account_id,
     "amount": 30,
     "transaction_date": "2017-11-02"
 }
@@ -166,7 +189,7 @@ else:
 
 
 #Wait for transfer to go through
-time.sleep(100)
+time.sleep(70)
 
 
 print("Checking the savings account")
@@ -185,7 +208,128 @@ else:
 
 print("Checking the account the money went to")
 #GET request
-r = requests.get('http://'+host+'/accounts/'+"5a01faefb390353c953a2461"+'?key='+api_key, headers={'content-type':'application/json'})
+r = requests.get('http://'+host+'/accounts/'+transfer_account_id+'?key='+api_key, headers={'content-type':'application/json'})
+#Show the result of the GET
+print("Result of the GET: " + str(r.status_code))
+if r.status_code == 200:
+    #Result is good
+    account_body = r.json()
+    print(json.dumps(account_body, indent=4) + '\n')
+else:
+    #Result is not good
+    print("Could not get the account"  +'\n')
+
+
+
+print("Posting a bill money from account")
+#Parameter body
+bill_call = {
+    "status": "completed",
+    "payee": "Spotify",
+    "payment_date": "2017-11-09",
+    "payment_amount": 15
+}
+#POST request
+r = requests.post('http://'+host+'/accounts/'+customer_account_id+'/bills?key='+api_key, json=bill_call, headers={'content-type':'application/json'})
+#Show the result of the POST
+print("Result of the POST: " + str(r.status_code))
+if r.status_code == 201:
+    #Result is good
+    account_body = r.json()
+    print(json.dumps(account_body, indent=4) + '\n')
+else:
+    #Result is not good
+    print("Could not post the bill"  +'\n')
+
+
+#Wait for withdrawal to go through
+time.sleep(70)
+
+
+print("Checking the savings account")
+#GET request
+r = requests.get('http://'+host+'/accounts/'+customer_account_id+'?key='+api_key, headers={'content-type':'application/json'})
+#Show the result of the GET
+print("Result of the GET: " + str(r.status_code))
+if r.status_code == 200:
+    #Result is good
+    account_body = r.json()
+    print(json.dumps(account_body, indent=4) + '\n')
+else:
+    #Result is not good
+    print("Could not get the account"  +'\n')
+
+
+
+print("Making a purchase")
+#Parameter body
+purchase_call = {
+    "merchant_id": "57cf75cea73e494d8675efa4",
+    "medium": "balance",
+    "purchase_date": "2017-11-09",
+    "amount": 6
+}
+#POST request
+r = requests.post('http://'+host+'/accounts/'+customer_account_id+'/purchases?key='+api_key, json=purchase_call, headers={'content-type':'application/json'})
+#Show the result of the POST
+print("Result of the POST: " + str(r.status_code))
+if r.status_code == 201:
+    #Result is good
+    account_body = r.json()
+    print(json.dumps(account_body, indent=4) + '\n')
+else:
+    #Result is not good
+    print("Could not make the purchase"  +'\n')
+
+
+#Wait for withdrawal to go through
+time.sleep(70)
+
+
+print("Checking the savings account")
+#GET request
+r = requests.get('http://'+host+'/accounts/'+customer_account_id+'?key='+api_key, headers={'content-type':'application/json'})
+#Show the result of the GET
+print("Result of the GET: " + str(r.status_code))
+if r.status_code == 200:
+    #Result is good
+    account_body = r.json()
+    print(json.dumps(account_body, indent=4) + '\n')
+else:
+    #Result is not good
+    print("Could not get the account"  +'\n')
+
+
+
+print("Making a loan on the account")
+#Parameter body
+loan_call = {
+    "type": "home",
+    "status": "approved",
+    "credit_score": 687,
+    "monthly_payment": 25,
+    "amount": 100
+}
+#POST request
+r = requests.post('http://'+host+'/accounts/'+customer_account_id+'/loans?key='+api_key, json=loan_call, headers={'content-type':'application/json'})
+#Show the result of the POST
+print("Result of the POST: " + str(r.status_code))
+if r.status_code == 201:
+    #Result is good
+    account_body = r.json()
+    print(json.dumps(account_body, indent=4) + '\n')
+else:
+    #Result is not good
+    print("Could not make the loan"  +'\n')
+
+
+#Wait for withdrawal to go through
+time.sleep(70)
+
+
+print("Checking the savings account")
+#GET request
+r = requests.get('http://'+host+'/accounts/'+customer_account_id+'?key='+api_key, headers={'content-type':'application/json'})
 #Show the result of the GET
 print("Result of the GET: " + str(r.status_code))
 if r.status_code == 200:
