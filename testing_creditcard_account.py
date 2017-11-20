@@ -66,43 +66,43 @@ else:
 
 
 
-print("Posting a bill money to the credit card")
-#Parameter body
-bill_call = {
-    "status": "completed",
-    "payee": "Spotify",
-    "payment_date": "2017-11-09",
-    "payment_amount": 15
-}
-#POST request
-r = requests.post('http://'+host+'/accounts/'+customer_account_id+'/bills?key='+api_key, json=bill_call, headers={'content-type':'application/json'})
-#Show the result of the POST
-print("Result of the POST: " + str(r.status_code))
-if r.status_code == 201:
-    #Result is good
-    account_body = r.json()
-    print(json.dumps(account_body, indent=4) + '\n')
-else:
-    #Result is not good
-    print("Could not post the bill"  +'\n')
-
-
-#Wait for withdrawal to go through
-time.sleep(70)
-
-
-print("Checking the credit card")
-#GET request
-r = requests.get('http://'+host+'/accounts/'+customer_account_id+'?key='+api_key, headers={'content-type':'application/json'})
-#Show the result of the GET
-print("Result of the GET: " + str(r.status_code))
-if r.status_code == 200:
-    #Result is good
-    account_body = r.json()
-    print(json.dumps(account_body, indent=4) + '\n')
-else:
-    #Result is not good
-    print("Could not get the account"  +'\n')
+# print("Posting a bill money to the credit card")
+# #Parameter body
+# bill_call = {
+#     "status": "completed",
+#     "payee": "Spotify",
+#     "payment_date": "2017-11-09",
+#     "payment_amount": 15
+# }
+# #POST request
+# r = requests.post('http://'+host+'/accounts/'+customer_account_id+'/bills?key='+api_key, json=bill_call, headers={'content-type':'application/json'})
+# #Show the result of the POST
+# print("Result of the POST: " + str(r.status_code))
+# if r.status_code == 201:
+#     #Result is good
+#     account_body = r.json()
+#     print(json.dumps(account_body, indent=4) + '\n')
+# else:
+#     #Result is not good
+#     print("Could not post the bill"  +'\n')
+#
+#
+# #Wait for withdrawal to go through
+# time.sleep(70)
+#
+#
+# print("Checking the credit card")
+# #GET request
+# r = requests.get('http://'+host+'/accounts/'+customer_account_id+'?key='+api_key, headers={'content-type':'application/json'})
+# #Show the result of the GET
+# print("Result of the GET: " + str(r.status_code))
+# if r.status_code == 200:
+#     #Result is good
+#     account_body = r.json()
+#     print(json.dumps(account_body, indent=4) + '\n')
+# else:
+#     #Result is not good
+#     print("Could not get the account"  +'\n')
 
 
 
