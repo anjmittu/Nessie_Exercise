@@ -9,7 +9,7 @@ parser.add_option("--test",action="store_true",default=False,help="Run local tes
 
 if (opts.test):
     host = "localhost:8080"
-    api_key = "09303c29b8b78bb7a77ea74086fc4604"
+    api_key = "23456"
 else:
     host = "api.reimaginebanking.com"
     api_key = "0f35e6aabd46897e9b0185a67a566d65"
