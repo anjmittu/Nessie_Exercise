@@ -10,9 +10,11 @@ parser.add_option("--test",action="store_true",default=False,help="Run local tes
 if (opts.test):
     host = "localhost:8080"
     api_key = "23456"
+    merchant_code = "5a131d38531a2102f2d52896"
 else:
     host = "api.reimaginebanking.com"
     api_key = "0f35e6aabd46897e9b0185a67a566d65"
+    merchant_code = "57cf75cea73e494d8675efa4"
 
 print("Creating a new customer for testing")
 #Parameter body
@@ -109,7 +111,7 @@ else:
 print("Making a purchase")
 #Parameter body
 purchase_call = {
-    "merchant_id": "57cf75cea73e494d8675efa4",
+    "merchant_id": merchant_code,
     "medium": "balance",
     "purchase_date": "2017-11-09",
     "amount": 6
